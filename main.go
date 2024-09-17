@@ -18,8 +18,8 @@ func main() {
 	// Create application with options
 	err := wails.Run(&options.App{
 		Title:  "es-client-wails",
-		Width:  1600,
-		Height: 900,
+		Width:  1400,
+		Height: 800,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},

@@ -10,19 +10,20 @@ export default {
     version: UpdateLog[0].version,
     sign: UpdateLog[0].sign,
     build: UpdateLog[0].time,
-    author: "Esion",
-    email: 'm17762618644@163.com',
+    author: "tiangao",
+    email: 'stiangao@163.com',
     mode,
     homeUrl: 'https://blog.esion.xyz',
     docUrl: 'https://www.yuque.com/baozhiyige-tewwf/ygxv4r',
+    issueUrl: 'https://gitee.com/tiangao/es-client-wails/issues',
     statistics: "http://project-esion.nat300.top",
     updateUrl: 'https://es-client.esion.xyz/electron/update.json',
     repositories: [{
         name: "Gitee",
-        url: "https://gitee.com/qiaoshengda/es-client"
+        url: "https://gitee.com/tiangao/es-client-wails"
     }, {
         name: 'Github',
-        url: 'https://github.com/q2316367743/es-client'
+        url: 'https://github.com/j2go/es-client-wails'
     }] as Repository[],
     // 分发平台
     distributes: {
