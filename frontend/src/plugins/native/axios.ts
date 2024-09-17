@@ -1,0 +1,196 @@
+import {AxiosRequestConfig} from "axios";
+import useUrlStore from "@/store/UrlStore";
+import UrlAuthTypeEnum from "@/enumeration/UrlAuthTypeEnum";
+import useGlobalSettingStore from "@/store/setting/GlobalSettingStore";
+import {useErrorStore} from "@/store/components/ErrorStore";
+import MessageUtil from "@/utils/MessageUtil";
+import {JSON_REGEX} from "@/data/EsUrl";
+import {jsonParse} from "@/algorithm/json";
+import {DoHttp} from "../../../wailsjs/go/main/App";
+
+interface Response<T> {
+    /** The request URL. */
+    url: string;
+    /** The response status code. */
+    status: number;
+    /** The response data. */
+    data: T;
+}
+
+// const error = {
+//     code: "ERR_BAD_REQUEST",
+//     config: {} as AxiosRequestConfig,
+//     message: "Request failed with status code 400",
+//     name: "AxiosError",
+//     request: {},
+//     response: {
+//         config: {} as AxiosRequestConfig,
+//         data: "{\"error\":{\"root_cause\":[{\"type\":\"parsing_exception\",\"reason\":\"Expected [START_OBJECT]",
+//         headers: {} as AxiosHeaders,
+//         request: {},
+//         status: 400,
+//         statusText: "Bad Request"
+//     }
+// } as AxiosError
+
+/**
+ * axios的简单封装
+ *
+ * @param config 配置项
+ */
+async function axios(config: AxiosRequestConfig): Promise<Response<string>> {
+    const rsp = await window.preload.axios<string>({
+        ...config,
+        responseType: 'text'
+    });
+    return Promise.resolve({
+        url: (rsp.config.baseURL || '') + (rsp.config.url || ''),
+        data: rsp.data,
+        status: rsp.status
+    });
+}
+
+/**
+ * 执行一个HTTP请求
+ * axios config 配置文档 https://www.axios-http.cn/docs/req_config
+ * @param config 请求配置项
+ * @return 响应内容
+ */
+export async function http<T>(config: AxiosRequestConfig): Promise<Response<T>> {
+    config.timeout = useGlobalSettingStore().getTimeout;
+    // let result: Response<string> = await axios(config);
+    // console.log("DoHttp", config);
+    let result = await DoHttp(config);
+    // console.log("result: " + JSON.stringify(result));
+    if (config.responseType === 'text') {
+        return Promise.resolve({
+            ...result,
+            data: result.data as T,
+        });
+    }
+    try {
+        if (JSON_REGEX.test(result.data)) {
+            // 是个JSON
+            return Promise.resolve({
+                ...result,
+                data: jsonParse(result.data),
+            });
+        } else {
+            console.log("JSON_REGEX.test failed, data: " + result.data);
+            return Promise.resolve({
+                ...result,
+                data: result.data as T,
+            });
+        }
+    } catch (e) {
+        MessageUtil.error("JSON解析失败", e);
+        try {
+            return Promise.resolve({
+                ...result,
+                data: JSON.parse(result.data),
+            });
+        } catch (ee) {
+            MessageUtil.error("JSON解析失败", ee);
+            return Promise.resolve({
+                ...result,
+                data: result.data as T,
+            });
+        }
+    }
+}
+
+/**
+ * 对HTTP请求的包装，主要是增加了请求记录
+ *
+ * @param config 请求配置项
+ */
+export async function httpWrap<T>(config: RequestConfig): Promise<T> {
+    const now = new Date().getTime();
+    const event = {
+        url: '',
+        createTime: new Date(),
+        method: config.method + '',
+        body: config.data ? (typeof config.data === 'string' ? config.data : JSON.stringify(config.data)) : (config.data + ''),
+        code: 200,
+        time: 0,
+        response: {}
+    }
+    try {
+        const res = await http<T>(config);
+        if (config.debug) {
+            useErrorStore().addEvent({
+                ...event,
+                url: res.url,
+                code: res.status,
+                time: new Date().getTime() - now,
+                response: res.data,
+                message: ''
+            })
+        }
+        return res.data;
+    } catch (e: any) {
+        if (config.debug) {
+            useErrorStore().addEvent({
+                ...event,
+                url: e.config ? ((e.config.baseURL || '') + (e.config.url || '')) : '',
+                code: e.response ? e.response.status : 0,
+                time: new Date().getTime() - now,
+                response: e.response ? e.response.data : {},
+                message: e.message
+            });
+        }
+        throw e;
+    }
+}
+
+export interface RequestConfig extends AxiosRequestConfig {
+
+    /**
+     * 是否是调试模式，如果是调试模式，则不会监控
+     */
+    debug?: boolean
+}
+
+/**
+ * 对es的http请求进行了封装，主要是增加了基础URL和认证信息
+ *
+ * @param config
+ */
+export async function fetchEs<T>(config: RequestConfig): Promise<T> {
+
+    if (useUrlStore().current.trim() === '' && (!config.url || !config.url.startsWith("http"))) {
+        return Promise.reject("请先选择链接！");
+    }
+
+    let headers: Record<string, string> = {
+        'Content-Type': 'application/json; charset=utf-8'
+    };
+
+    // 如果有密码应该追加密码
+    let {url} = useUrlStore();
+    if (url) {
+        if (url.isAuth) {
+            if (url.authType === UrlAuthTypeEnum.HEADER) {
+                headers[url.authUser] = url.authPassword;
+            }
+            if (url.authType === UrlAuthTypeEnum.COOKIE) {
+                headers['Cookie'] = url.authPassword;
+            } else {
+                config.auth = {
+                    username: url.authUser,
+                    password: url.authPassword
+                }
+            }
+        }
+    }
+
+    return httpWrap<T>({
+        ...config,
+        baseURL: useUrlStore().current,
+        headers: {
+            ...config.headers,
+            ...headers
+        },
+        responseEncoding: "utf-8"
+    });
+}

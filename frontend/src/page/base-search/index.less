@@ -1,0 +1,137 @@
+.base-spin {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    height: calc(100% - 20px);
+    width: calc(100% - 20px);
+
+    .base-search {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        .base-search-tab {
+            display: block;
+            height: 50px;
+
+            &.full-screen {
+                display: none;
+            }
+
+        }
+
+        .base-search-main {
+            position: absolute;
+            top: 42px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            transition: var(--el-transition-duration);
+
+            &.full-screen {
+                top: 0;
+            }
+
+            .base-option {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 32px;
+                display: flex;
+                justify-content: space-between;
+
+                .left {
+                    display: flex;
+
+                    .base-extra-button {
+                        width: 14px;
+                        padding-top: 8px;
+                        height: 32px;
+                        background-color: var(--color-border-2);
+                        margin-right: 8px;
+                        cursor: pointer;
+
+                        .arco-icon {
+                            transition: 0.2s;
+                        }
+
+                        &.open {
+                            .arco-icon {
+                                transform: rotate(90deg);
+                            }
+                        }
+                    }
+                }
+
+                .right {
+                    display: flex;
+                }
+            }
+
+            .base-extra {
+                position: absolute;
+                top: 40px;
+                left: 0;
+                right: 0;
+                height: 32px;
+                display: flex;
+                justify-content: space-between;
+
+                .left {
+                    display: flex;
+
+                }
+
+                .right {
+                    display: flex;
+                }
+            }
+
+            .base-display {
+                position: absolute;
+                top: 40px;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                overflow: auto;
+                border-bottom: 1px solid var(--color-border-2);
+                border-radius: 4px;
+
+
+                .base-condition {
+                    overflow-y: hidden;
+                    position: relative;
+                    transition: 0.3s;
+                    border-radius: 4px;
+                    border: 1px solid var(--color-border-2);
+
+                    .arco-form {
+                        padding: 18px 20px;
+                    }
+
+                    .base-condition-pagination {
+                        display: flex;
+                    }
+                }
+
+                .base-content {
+                    position: relative;
+                    margin-top: 8px;
+                    overflow: hidden;
+                }
+            }
+
+            .base-search-condition-sentence {
+                position: absolute;
+                right: 5px;
+                top: 42px;
+            }
+        }
+    }
+
+}
