@@ -80,7 +80,7 @@ const expandable = ref<TableExpandable>({
     expandedRowRender: (record: TableData) => {
         try {
             return h(JsonView, {
-                data: JSON.parse(record.body)
+                value: JSON.parse(record.body)
             });
         } catch (e) {
             return h('pre', {}, record.body);

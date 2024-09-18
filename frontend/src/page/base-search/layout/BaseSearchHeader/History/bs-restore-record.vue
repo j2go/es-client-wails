@@ -89,7 +89,7 @@ const expandable = markRaw<TableExpandable>({
     width: 80,
     expandedRowRender: (record: TableData) => {
         return h(JsonView, {
-            data: record
+            value: record
         });
     }
 });
