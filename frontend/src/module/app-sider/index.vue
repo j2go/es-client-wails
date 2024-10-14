@@ -1,5 +1,5 @@
 <template>
-    <a-layout-sider :collapsed="collapsed" :width="150" :collapsed-width="50">
+    <a-layout-sider :collapsed="collapsed" :width="140" :collapsed-width="50">
         <a-menu v-model:collapsed="collapsed" v-model:selected-keys="selectedKeys" show-collapse-button>
             <a-menu-item :key="PageNameEnum.HOME">
                 <template #icon>

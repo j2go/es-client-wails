@@ -2,7 +2,7 @@
     <link :href="`./highlight.js/styles/${jsonTheme}.css`" type="text/css" rel="stylesheet">
     <a-layout id="app">
         <!-- 顶部菜单栏 -->
-        <app-header/>
+        <app-header style="--wails-draggable:drag"/>
         <!-- 主页面 -->
         <a-layout id="main">
             <app-side/>
