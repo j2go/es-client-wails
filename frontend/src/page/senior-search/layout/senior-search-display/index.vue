@@ -24,10 +24,10 @@
                 结果
             </div>
             <div class="tab" :class="displayActive === 'record' ? 'active' : ''" @click="displayActive = 'record'">
-                请求记录
+                请求
             </div>
             <div class="tab" :class="displayActive === 'history' ? 'active' : ''" @click="displayActive = 'history'">
-                历史记录
+                历史
             </div>
         </div>
     </div>
@@ -81,7 +81,7 @@ function pin() {
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 32px;
+    grid-template-columns: 1fr 44px;
     overflow: hidden;
 
     .view {
@@ -92,12 +92,12 @@ function pin() {
     }
 
     .tabs {
-        width: 32px;
+        width: 44px;
         display: block;
 
         .tab {
             writing-mode: vertical-lr;
-            width: 32px;
+            width: 44px;
             margin: 5px 0;
             cursor: pointer;
             padding: 8px 6px;

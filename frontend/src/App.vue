@@ -103,9 +103,5 @@ useGlobalStore().initDarkColors();
 </script>
 
 <style lang="less">
-.app-feedback {
-    width: calc(100vw - 40px);
-    height: calc(100vh - 58px - 60px);
-    border: none;
-}
+
 </style>
