@@ -1,7 +1,7 @@
 <template>
     <div class="field-condition-container">
         <div v-if="current.conditions.length === 0">
-            <a-button type="primary" @click="add()">新增</a-button>
+            <a-button type='text' @click="add()">新增条件</a-button>
         </div>
         <div v-for="(_item, idx) in current.conditions" :key="_item.id" style="margin-bottom: 10px;">
             <field-condition-item v-model="current.conditions[idx]" :index="idx" @add="add" @remove="remove"

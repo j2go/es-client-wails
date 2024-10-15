@@ -63,17 +63,12 @@
           </a-doption>
         </template>
       </a-dropdown>
-      <!-- 版本 -->
-      <a-dropdown @select="versionCommand" position="br">
-        <a-button class="menu-item" type="text" status="normal" :disabled="loading" style="padding: 0 7px;">
-          {{ Constant.version }}
+      <!-- 退出 -->
+      <a-dropdown >
+        <a-button class="menu-item" @click="Quit" type="text" status="normal" :disabled="loading">
+          <icon-close/>
         </a-button>
-        <template #content>
-          <a-doption value="feedback">问题反馈</a-doption>
-          <a-doption value="log">更新日志</a-doption>
-          <a-doption value="repository">代码仓库</a-doption>
-          <a-doption value="about">关于</a-doption>
-        </template>
+
       </a-dropdown>
     </div>
     <!-- 问题反馈 -->
@@ -105,6 +100,7 @@ import Assert from "@/utils/Assert";
 import {setItem} from '@/utils/utools/DbStorageUtil';
 import {useWindowSize} from "@vueuse/core";
 import {openAddLink} from "@/page/setting/pages/link/components/EditLink";
+import {BrowserOpenURL, Quit} from "../../../wailsjs/runtime";
 
 const router = useRouter();
 const size = useWindowSize();
@@ -155,26 +151,6 @@ async function selectUrl(value: any) {
   Assert.isTrue(useUrlStore().choose(value as number), "链接未找到");
   // 索引刷新
   await useIndexStore().reset();
-}
-
-function versionCommand(command: any) {
-  switch (command) {
-    case 'about':
-      router.push(PageNameEnum.MORE_ABOUT)
-      break;
-    case 'log':
-      router.push(PageNameEnum.MORE_UPDATE)
-      break;
-    case 'repository':
-      utools.shellOpenExternal(Constant.repositories[0].url)
-      break;
-    case 'update':
-      alert('检查更新')
-      break;
-    case 'feedback':
-      feedbackDialog.value = true;
-      break;
-  }
 }
 
 </script>

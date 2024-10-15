@@ -1,8 +1,8 @@
 <template>
     <div class="file-order-container">
         <div v-if="current.orders.length === 0">
-            <a-button type="primary" @click="add()">
-                新增
+            <a-button type='text' @click="add()">
+                新增排序
             </a-button>
         </div>
         <div style="display: flex;margin-bottom: 10px;width: 100%;" v-for="(_order, idx) in current.orders" :key="_order.id">
@@ -33,4 +33,6 @@ const remove = (id: number) => {
 
 
 </script>
-<style scoped></style>
+<style scoped>
+
+</style>
