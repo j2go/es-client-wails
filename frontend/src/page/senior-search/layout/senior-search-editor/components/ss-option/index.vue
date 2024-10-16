@@ -18,7 +18,7 @@
             <a-tooltip content="格式化" position="right">
                 <a-button type="text" status="normal" @click="formatDocument()">
                     <template #icon>
-                        <icon-code/>
+                        <icon-code-block :size="18"/>
                     </template>
                 </a-button>
             </a-tooltip>

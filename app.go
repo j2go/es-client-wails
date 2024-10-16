@@ -5,7 +5,6 @@ import (
 	"context"
 	"encoding/base64"
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"net/url"
@@ -90,12 +89,12 @@ func doRequest(config AxiosRequestConfig) (*http.Response, error) {
 	}
 	// Set request body if any
 	if config.Data != nil {
-		data, err := json.Marshal(config.Data)
-		if err != nil {
-			return nil, err
+		if strValue, ok := config.Data.(string); ok {
+			req.Body = io.NopCloser(bytes.NewBuffer([]byte(strValue)))
+		} else {
+			byteData, _ := json.Marshal(config.Data)
+			req.Body = io.NopCloser(bytes.NewBuffer(byteData))
 		}
-		fmt.Println(string(data))
-		req.Body = io.NopCloser(bytes.NewBuffer(data))
 	}
 	// Send request
 	resp, err := client.Do(req)
