@@ -10,10 +10,6 @@
 wails dev
 ```
 
-## 发布包下载
+## 安装包下载
 
-### macos m1/m2
-https://gitee.com/tiangao/es-client-wails/releases/download/v3.1.7/%20es-client-wails_darwin_arm64.zip
 
-### macos intel
-https://gitee.com/tiangao/es-client-wails/releases/download/v3.1.7/es-client-wails_darwin_amd64.zip
