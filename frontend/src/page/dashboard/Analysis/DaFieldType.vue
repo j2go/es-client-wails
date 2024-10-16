@@ -5,7 +5,7 @@
                 <a-row :gutter="14">
                     <a-col :span="12">
                         <a-form-item label="索引">
-                            <a-select v-model="config.index" allow-clear allow-search>
+                            <a-select v-model="config.index" allow-clear allow-search style="width: 300px">
                                 <a-option v-for="index in indices" :key="index.name" :value="index.name">{{
                                         index.name
                                     }}
@@ -15,7 +15,7 @@
                     </a-col>
                     <a-col :span="12">
                         <a-form-item label="字段">
-                            <a-select v-model="config.field" allow-clear allow-search allow-create>
+                            <a-select v-model="config.field" allow-clear allow-search allow-create style="width: 245px">
                                 <a-option v-for="field in fields" :key="field.name" :value="field.name">
                                     {{ field.label }}
                                 </a-option>
@@ -24,7 +24,7 @@
                     </a-col>
                 </a-row>
                 <a-form-item label="文本">
-                    <a-textarea v-model="config.text" allow-clear placeholder="输入要分析的文本" style="width: 534px"/>
+                    <a-textarea v-model="config.text" allow-clear placeholder="输入要分析的文本" style="width: 600px"/>
                 </a-form-item>
                 <a-form-item>
                     <a-button type="primary" @click="exec()" :disabled="disabled">开始分析</a-button>
