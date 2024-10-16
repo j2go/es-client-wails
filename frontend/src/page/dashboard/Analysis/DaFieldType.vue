@@ -1,7 +1,7 @@
 <template>
     <a-spin :loading="loading">
         <div style="overflow-x: hidden;">
-            <a-form :model="config" layout="vertical">
+            <a-form :model="config" layout="inline" >
                 <a-row :gutter="14">
                     <a-col :span="12">
                         <a-form-item label="索引">
@@ -23,8 +23,8 @@
                         </a-form-item>
                     </a-col>
                 </a-row>
-                <a-form-item label="分析的字符串">
-                    <a-input v-model="config.text" allow-clear placeholder="请输入要分析的字符串"/>
+                <a-form-item label="文本">
+                    <a-textarea v-model="config.text" allow-clear placeholder="输入要分析的文本" style="width: 534px"/>
                 </a-form-item>
                 <a-form-item>
                     <a-button type="primary" @click="exec()" :disabled="disabled">开始分析</a-button>
