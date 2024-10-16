@@ -42,7 +42,7 @@
                     </a-scrollbar>
                 </div>
                 <monaco-view v-if="view === ViewTypeEnum.EDITOR" :value="data"/>
-                <table-viewer v-else-if="view === ViewTypeEnum.TABLE" :data="data"/>
+                <table-viewer v-else-if="view === ViewTypeEnum.TABLE" :data="JSON.parse(data)"/>
             </div>
         </div>
         <a-button type="text" link class="json-view-copy" v-show="view !== ViewTypeEnum.TABLE" @click="execCopy()">复制

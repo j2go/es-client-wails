@@ -25,7 +25,7 @@
             <a-tooltip content="清空" position="right">
                 <a-button type="text" status="normal" @click="clearBody()">
                     <template #icon>
-                        <format-icon/>
+                        <icon-eraser/>
                     </template>
                 </a-button>
             </a-tooltip>
@@ -33,8 +33,8 @@
                 <a-tooltip content="修改视图" position="right">
                     <a-button type="text" status="normal">
                         <template #icon>
-                            <icon-code :size="18" v-if="seniorSearchView === ViewTypeEnum.BASE"/>
-                            <icon-code-block :size="18" v-else-if="seniorSearchView === ViewTypeEnum.JSON"/>
+                            <icon-align-left :size="18" v-if="seniorSearchView === ViewTypeEnum.BASE"/>
+                            <icon-code :size="18" v-else-if="seniorSearchView === ViewTypeEnum.JSON"/>
                             <icon-nav :size="18" v-else-if="seniorSearchView === ViewTypeEnum.TABLE"/>
                             <icon-mind-mapping :size="18" v-else-if="seniorSearchView === ViewTypeEnum.JSON_TREE"/>
                             <icon-edit :size="18" v-else-if="seniorSearchView === ViewTypeEnum.EDITOR"/>
@@ -56,13 +56,7 @@
                     </template>
                 </a-button>
             </a-tooltip>
-            <a-tooltip content="帮助" position="right">
-                <a-button type="text" status="normal" @click="openHelp()">
-                    <template #icon>
-                        <icon-question-circle :size="18"/>
-                    </template>
-                </a-button>
-            </a-tooltip>
+            
         </div>
         <div>
             <slot name="footer"/>
@@ -80,7 +74,6 @@ import {
 
 const allowEdit = computed(() => useSeniorSearchStore().id !== 0);
 
-const openHelp = () => utools.shellOpenExternal('https://www.yuque.com/baozhiyige-tewwf/ygxv4r/ya0xyiidxty4lois');
 const formatDocument = () => useSeniorSearchStore().formatDocument();
 const clearBody = () => useSeniorSearchStore().clearBody();
 const saveHistory = () => useSeniorSearchStore().saveHistory();
